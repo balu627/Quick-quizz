@@ -164,6 +164,9 @@ a:hover{
     background-color: white;
     border-radius: 10px;
 }
+.bodyctr .ext2 .int:hover{
+    background-color: rgb(234, 168, 179);
+}
 .bodyctr .bfoot{
     display: flex;
     justify-content: space-between;
