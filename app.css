@@ -127,7 +127,6 @@ a:hover{
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     width: 80%;
-    /* height: 90%; */
     background-color: rgb(165, 228, 255);
     border:1.5px solid black;
     border-radius: 10px;
@@ -165,7 +164,7 @@ a:hover{
     border-radius: 10px;
 }
 .bodyctr .ext2 .int:hover{
-    background-color: rgb(234, 168, 179);
+    background-color: rgb(243, 236, 157);
 }
 .bodyctr .bfoot{
     display: flex;
