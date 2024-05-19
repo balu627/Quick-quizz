@@ -1,4 +1,4 @@
-function questioniterator(){
+function questioniterator() {
   quesIndex++;
   clearInterval(interalvar);
   if (quesIndex < result.length) {
@@ -60,24 +60,21 @@ function handleclick(optionContainer, ans) {
 let quesIndex = 0;
 let result;
 async function apifetch() {
-    try{
-        let response = await fetch(
-            "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
-          );
-          let resjs = await response.json();
-          result = resjs.results;
-          if (result) {
-            let singleres = result[quesIndex];
-            datahtmlpush(singleres);
-          }
-          else{
-            setTimeout(apifetch,500);
-          }
-          
+  try {
+    let response = await fetch(
+      "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
+    );
+    let resjs = await response.json();
+    result = resjs.results;
+    if (result) {
+      let singleres = result[quesIndex];
+      datahtmlpush(singleres);
+    } else {
+      setTimeout(apifetch, 500);
     }
-    catch(error){
-        setTimeout(apifetch,500);
-    }
+  } catch (error) {
+    setTimeout(apifetch, 500);
+  }
 }
 
 apifetch();
