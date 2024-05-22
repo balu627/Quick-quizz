@@ -75,6 +75,8 @@ let quesIndex = 0;
 let result;
 async function apifetch() {
   if (window.location.href.endsWith("dash.html")) {
+    let loaddiv = document.querySelector(".loader");
+    // loaddiv.addEventListener("load",)
     let inputValues = JSON.parse(sessionStorage.getItem("inputvalues"));
     console.log(inputValues);
     try {
