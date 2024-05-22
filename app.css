@@ -32,8 +32,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     flex: 1;
 }
+/* .score{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+} */
 .finp{
     display: flex;
     justify-content: center;
@@ -132,6 +140,39 @@ a:hover{
     border-radius: 10px;
     text-align: left;
 }
+
+.loader{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+.loader-hiddem{
+    opacity: 0;
+    visibility: hidden;
+}
+.loader::after{
+    content:"";
+    width: 75px;
+    height: 75px;
+    border: 15px solid rgb(243, 243, 249);
+    border-top-color:blue;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+@keyframes loading {
+    from{
+        transform: rotate(0turn);
+    }
+    to{
+        transform: rotate(1turn);
+    }
+}
 .timer{
     display: inline;
     float: right;
@@ -156,12 +197,16 @@ a:hover{
 .bodyctr .ext2 .int{
     margin: 15px;
     font-size:medium;
-    font-weight: 700;
+    font-weight: 
+    700;
     font-family:Georgia, 'Times New Roman', Times, serif    ;
     border: 1px solid black;
     padding: 1rem;
     background-color: white;
     border-radius: 10px;
+}
+.bodyctr .ext2 .int input[type='radio']{
+    display: none;
 }
 .bodyctr .ext2 .int:hover{
     background-color: rgb(243, 236, 157);

@@ -4,6 +4,7 @@ function questioniterator() {
   if (quesIndex < result.length) {
     datahtmlpush(result[quesIndex]);
   } else {
+    sessionStorage.setItem("score", JSON.stringify([score, result.length]));
     window.location.href = "ques.html";
   }
 }
@@ -26,6 +27,7 @@ function datahtmlpush(singleres) {
   document.querySelector(".ext2").innerHTML = opt;
   startTimer();
 }
+
 let interalvar;
 let timer;
 async function startTimer() {
@@ -41,40 +43,71 @@ async function startTimer() {
     }
   }
 }
+
+var score = 0;
 function handleclick(optionContainer, ans) {
-  const radioButton = optionContainer.querySelector("input[type='radio']");
   const selectedOption = optionContainer.querySelector("label");
+  if (optionContainer.clicked === "true") {
+    return;
+  }
   if (selectedOption) {
     const selectedValue = selectedOption.textContent.trim();
     if (selectedValue === ans) {
       optionContainer.style.backgroundColor = "lightgreen";
-      radioButton.click();
+      score++;
       timer = 3;
     } else {
       optionContainer.style.backgroundColor = "#FFCCCB";
     }
   }
-  radioButton.click();
+  optionContainer.clicked = "true";
+}
+
+function displayScore() {
+  let bothvalues = JSON.parse(sessionStorage.getItem("score"));
+  let score = bothvalues[0];
+  let total = bothvalues[1];
+  let finalscore = score + "/" + total;
+  document.querySelector(".score").textContent = finalscore;
 }
 
 let quesIndex = 0;
 let result;
 async function apifetch() {
-  try {
-    let response = await fetch(
-      "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
-    );
-    let resjs = await response.json();
-    result = resjs.results;
-    if (result) {
-      let singleres = result[quesIndex];
-      datahtmlpush(singleres);
-    } else {
+  if (window.location.href.endsWith("dash.html")) {
+    let inputValues = JSON.parse(sessionStorage.getItem("inputvalues"));
+    console.log(inputValues);
+    try {
+      let response = await fetch(
+        "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
+      );
+      let resjs = await response.json();
+      result = resjs.results;
+      if (result) {
+        let singleres = result[quesIndex];
+        datahtmlpush(singleres);
+      } else {
+        setTimeout(apifetch, 500);
+      }
+    } catch (error) {
       setTimeout(apifetch, 500);
     }
-  } catch (error) {
-    setTimeout(apifetch, 500);
   }
 }
 
-apifetch();
+function inputstore() {
+  let userName = document.getElementById("username").value;
+  let userPass = document.getElementById("password").value;
+  sessionStorage.setItem("inputvalues", JSON.stringify([userName, userPass]));
+}
+
+function pageredirect() {
+  if (window.location.href.endsWith("dash.html")) {
+    apifetch();
+  }
+  if (window.location.href.endsWith("ques.html")) {
+    displayScore();
+  }
+}
+
+pageredirect();
