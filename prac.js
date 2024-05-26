@@ -10,6 +10,9 @@ function questioniterator() {
 }
 
 function datahtmlpush(singleres) {
+  let inpvalues = JSON.parse(sessionStorage.getItem("inputvalues"));
+  let username = inpvalues[0];
+  document.querySelector(".username").innerHTML=`<h2>Username:<i>${inpvalues[0]}</i></hr2>`
   let ques = `${singleres.question}`;
   let opt = "";
   let ans = singleres.correct_answer;
@@ -76,7 +79,6 @@ let result;
 async function apifetch() {
   if (window.location.href.endsWith("dash.html")) {
     let loaddiv = document.querySelector(".loader");
-    // loaddiv.addEventListener("load",)
     let inputValues = JSON.parse(sessionStorage.getItem("inputvalues"));
     console.log(inputValues);
     try {
@@ -86,6 +88,9 @@ async function apifetch() {
       let resjs = await response.json();
       result = resjs.results;
       if (result) {
+        loaddiv.classList.remove("loader");
+        document.querySelector(".uname").classList.add("username");
+        loaddiv.classList.add("bodyctr");
         let singleres = result[quesIndex];
         datahtmlpush(singleres);
       } else {
@@ -113,3 +118,18 @@ function pageredirect() {
 }
 
 pageredirect();
+
+const hamburger = document.querySelector(".logo");
+const navmenu = document.querySelector(".right");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  navmenu.classList.toggle("active");
+});
+
+document.querySelectorAll(".right").forEach(n =>{
+  n.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    navmenu.classList.remove("active");
+  });
+});

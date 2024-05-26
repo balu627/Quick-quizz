@@ -35,13 +35,6 @@
     flex-direction: column;
     flex: 1;
 }
-/* .score{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    flex: 1;
-} */
 .finp{
     display: flex;
     justify-content: center;
@@ -102,16 +95,16 @@ input{
     justify-content: center;
     align-items: center;
 }
-.brandlogo{
-    display: flex;
-    font-family: cursive;
-    font-size: x-large;
-    align-content: center;
-}
-.brandlogo > a{
-    text-decoration: none;
-    color:white
-}
+    .brandlogo{
+        display: flex;
+        font-family: cursive;
+        font-size: x-large;
+        align-content: center;
+    }
+    .brandlogo > a{
+        text-decoration: none;
+        color:white
+    }
 a{
     cursor: pointer;
     text-decoration: none;
@@ -130,6 +123,15 @@ a:hover{
 .logo {
         display: none; 
     } 
+.bar{
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin:5px auto;
+        -webkit-transition:all 0.3s ease-in-out;
+        transition:all 0.3s ease-in-out;
+        background-color: black;
+}
 
 .bodyctr{
     margin-top: 0.5rem;
@@ -145,22 +147,24 @@ a:hover{
     position: fixed;
     top:0;
     left:0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(255, 255, 255, 0.8);
     transition: opacity 0.75s, visibility 0.75s;
+    flex:1;
 }
-.loader-hiddem{
+.loader-hidden{
     opacity: 0;
     visibility: hidden;
 }
 .loader::after{
     content:"";
-    width: 75px;
-    height: 75px;
-    border: 15px solid rgb(243, 243, 249);
+    width: 60px;
+    height: 60px;
+    border: 10px solid rgb(243, 243, 249);
     border-top-color:blue;
     border-radius: 50%;
     animation: loading 0.75s ease infinite;
@@ -173,11 +177,15 @@ a:hover{
         transform: rotate(1turn);
     }
 }
+.username{
+    padding: 1rem 2.5rem;
+    padding-bottom: 0;
+}
 .timer{
     display: inline;
     float: right;
     text-align: end;
-    margin-top: 1rem;
+    margin-top: -35px;
     margin-right: 1rem;
     padding:0.5rem;
     font-size:x-large;
@@ -197,8 +205,7 @@ a:hover{
 .bodyctr .ext2 .int{
     margin: 15px;
     font-size:medium;
-    font-weight: 
-    700;
+    font-weight: 700;
     font-family:Georgia, 'Times New Roman', Times, serif    ;
     border: 1px solid black;
     padding: 1rem;
@@ -211,46 +218,44 @@ a:hover{
 .bodyctr .ext2 .int:hover{
     background-color: rgb(243, 236, 157);
 }
-.bodyctr .bfoot{
-    display: flex;
-    justify-content: space-between;
-}
-.bodyctr .bfoot .btn1{
-    margin-left: 3.5rem;
-    padding: 0.5rem 1rem ;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-}
-.bodyctr .bfoot .btn2{
-    margin-right: 1.5rem;
-    padding: 0.5rem 1rem ;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-}
-.bodyctr .bfoot :hover{
-    background-color: beige;
-}
 @media screen and (max-width: 600px) {
     .logo{
-        padding-top:10px;
-        padding-left:20px;
         display: block;
+        margin-right: 15px;
+    }
+    .logo.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .logo.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .logo.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
     }
     .navhead{
-        display: none;
+        display:block;
     }
     .container{
         display: flex;   
-        flex-direction: column;
-        align-items:start;
-        height: 250px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width:100%;
     }
     .right{
-        width: 100dvw;
+        left:0;
+        position: fixed;
+        width:100%;
+        top:-100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap:1.5rem;
+        gap:20px;
         padding-bottom: 20px;
+        background-color: skyblue;
+        transition: 0.3s;
+    }
+    .right.active{
+        top:79px;
     }
 }
