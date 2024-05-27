@@ -82,9 +82,7 @@ async function apifetch() {
     let inputValues = JSON.parse(sessionStorage.getItem("inputvalues"));
     console.log(inputValues);
     try {
-      let response = await fetch(
-        "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
-      );
+      let response = await fetch("http://127.0.0.1:8000/fetch");
       let resjs = await response.json();
       result = resjs.results;
       if (result) {
@@ -97,7 +95,7 @@ async function apifetch() {
         setTimeout(apifetch, 500);
       }
     } catch (error) {
-      setTimeout(apifetch, 500);
+      console.log( error);
     }
   }
 }
