@@ -11,12 +11,12 @@ function questioniterator() {
 
 function datahtmlpush(singleres) {
   let inpvalues = JSON.parse(sessionStorage.getItem("inputvalues"));
-  let username = inpvalues[0];
   document.querySelector(".username").innerHTML=`<h2>Username:<i>${inpvalues[0]}</i></hr2>`
   let ques = `${singleres.question}`;
+  let alloptions = [singleres.option1,singleres.option2,singleres.option3];
   let opt = "";
-  let ans = singleres.correct_answer;
-  singleres.incorrect_answers.forEach((op) => {
+  let ans = singleres.correct_answer ;
+  alloptions.forEach((op) => {
     opt += `<div class="int" onclick="handleclick(this,'${ans}')">
       <input type="radio"  name="options">
       <label for="${op}">${op}</label>
@@ -83,8 +83,8 @@ async function apifetch() {
     console.log(inputValues);
     try {
       let response = await fetch("http://127.0.0.1:8000/fetch");
-      let resjs = await response.json();
-      result = resjs.results;
+      result = await response.json();
+      console.log(result);
       if (result) {
         loaddiv.classList.remove("loader");
         document.querySelector(".uname").classList.add("username");

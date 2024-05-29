@@ -1,1 +1,0 @@
- // options+=singleres.correct_answer;
