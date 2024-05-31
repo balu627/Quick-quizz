@@ -11,21 +11,28 @@ function questioniterator() {
 
 function datahtmlpush(singleres) {
   let inpvalues = JSON.parse(sessionStorage.getItem("inputvalues"));
-  document.querySelector(".username").innerHTML=`<h2>Username:<i>${inpvalues[0]}</i></hr2>`
+  document.querySelector(
+    ".username"
+  ).innerHTML = `<h2>Username:<i>${inpvalues[0]}</i></hr2>`;
   let ques = `${singleres.question}`;
-  let alloptions = [singleres.option1,singleres.option2,singleres.option3];
+  let alloptions = [
+    singleres.option1,
+    singleres.option2,
+    singleres.option3,
+    singleres.correct_answer,
+  ];
+  for (let i = alloptions.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [alloptions[i], alloptions[j]] = [alloptions[j], alloptions[i]];
+  }
   let opt = "";
-  let ans = singleres.correct_answer ;
+  let ans = singleres.correct_answer;
   alloptions.forEach((op) => {
     opt += `<div class="int" onclick="handleclick(this,'${ans}')">
       <input type="radio"  name="options">
       <label for="${op}">${op}</label>
   </div>`;
   });
-  opt += `<div class="int" onclick="handleclick(this,'${ans}')">
-  <input type="radio"  name="options">
-  <label for="${singleres.correct_answer}">${singleres.correct_answer}</label>
-</div>`;
   document.querySelector(".ext1").innerHTML = ques;
   document.querySelector(".ext2").innerHTML = opt;
   startTimer();
@@ -95,7 +102,7 @@ async function apifetch() {
         setTimeout(apifetch, 500);
       }
     } catch (error) {
-      console.log( error);
+      console.log(error);
     }
   }
 }
@@ -125,7 +132,7 @@ hamburger.addEventListener("click", () => {
   navmenu.classList.toggle("active");
 });
 
-document.querySelectorAll(".right").forEach(n =>{
+document.querySelectorAll(".right").forEach((n) => {
   n.addEventListener("click", () => {
     hamburger.classList.remove("active");
     navmenu.classList.remove("active");
