@@ -97,7 +97,7 @@ const server = http.createServer((req, res) => {
       console.log("Select all successful");
       res.end(JSON.stringify(result));
     });
-    } else {
+  } else {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/plain");
     res.end("url not found");
