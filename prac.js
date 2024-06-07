@@ -2,6 +2,7 @@ function questioniterator() {
   quesIndex++;
   clearInterval(interalvar);
   if (quesIndex < result.length) {
+    firstclickbool = true;
     datahtmlpush(result[quesIndex]);
   } else {
     sessionStorage.setItem("score", JSON.stringify([score, result.length]));
@@ -15,14 +16,12 @@ function datahtmlpush(singleres) {
     ".username"
   ).innerHTML = `<h2>Username:<i>${inpvalues[0]}</i></hr2>`;
   let ques = `${singleres.question}`;
-  let alloptions = [
-    singleres.option1,
-    singleres.option2,
-    singleres.option3,
-    singleres.correct_answer,
-  ];
+  
+  let alloptions=singleres.incorrect_answers;
+  alloptions = alloptions.concat(singleres.correct_answer);
   for (let i = alloptions.length-1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
+
     [alloptions[i], alloptions[j]] = [alloptions[j], alloptions[i]];
   }
   let opt = "";
@@ -64,9 +63,13 @@ function handleclick(optionContainer, ans) {
     const selectedValue = selectedOption.textContent.trim();
     if (selectedValue === ans) {
       optionContainer.style.backgroundColor = "lightgreen";
-      score++;
+      if(firstclickbool==true)
+        {
+          score++;
+        }
       timer = 3;
     } else {
+      firstclickbool = false;
       optionContainer.style.backgroundColor = "#FFCCCB";
     }
   }
@@ -83,14 +86,16 @@ function displayScore() {
 
 let quesIndex = 0;
 let result;
+let firstclickbool = true;
 async function apifetch() {
   if (window.location.href.endsWith("dash.html")) {
     let loaddiv = document.querySelector(".loader");
     let inputValues = JSON.parse(sessionStorage.getItem("inputvalues"));
     console.log(inputValues);
     try {
-      let response = await fetch("http://127.0.0.1:8000/fetch");
-      result = await response.json();
+      let response = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple");
+      let resjs = await response.json();
+      result = resjs.results;
       console.log(result);
       if (result) {
         loaddiv.classList.remove("loader");
