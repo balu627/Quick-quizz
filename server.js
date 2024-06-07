@@ -97,6 +97,41 @@ const server = http.createServer((req, res) => {
       console.log("Select all successful");
       res.end(JSON.stringify(result));
     });
+  } else  if (path === "/add" && req.method === "POST") {
+    let data = "";
+    req.on("data", chunk => {
+      data += chunk;
+    });
+
+    req.on("end", () => {
+      const parsedData = JSON.parse(data);
+      const questions = parsedData.questions;
+
+      // Insert questions into the database
+      questions.forEach(question => {
+        const sqlQuery =
+          "INSERT INTO quiz (question, option1, option2, option3, correct_answer) VALUES (?, ?, ?, ?, ?)";
+        const values = [
+          question.question,
+          question.options[0],
+          question.options[1],
+          question.options[2],
+          question.correctOption
+        ];
+
+        connection.query(sqlQuery, values, (err, result) => {
+          if (err) {
+            console.error("Error inserting data into MySQL:", err);
+            return;
+          }
+          console.log("Data inserted into MySQL table successfully");
+        });
+      });
+
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/plain");
+      res.end("Data received and processed successfully");
+    });
   } else {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/plain");

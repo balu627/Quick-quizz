@@ -138,3 +138,46 @@ document.querySelectorAll(".right").forEach((n) => {
     navmenu.classList.remove("active");
   });
 });
+
+
+
+function addquestiontodb() {
+  // Retrieve user input values
+  const questions = [];
+  document.querySelectorAll('.eachquestioninp').forEach(function (questionInput) {
+    const question = questionInput.querySelector('.questioninpt').value;
+    const options = [];
+    questionInput.querySelectorAll('.eachoptioninp').forEach(function (optionInput) {
+      options.push(optionInput.value);
+    });
+    const correctOption = options.pop(); // Remove and store the correct option from options array
+    questions.push({ question, options, correctOption });
+  });
+
+  // Prepare data to send to the server
+  const data = {
+    questions: questions
+  };
+
+  // Send data to the server using fetch
+  fetch('http://127.0.0.1:8000/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Questions added successfully');
+      // Redirect or display success message as needed
+    } else {
+      console.error('Failed to add questions');
+      // Handle error
+    }
+  })
+  .catch(error => {
+    console.error('Error adding questions:', error);
+    // Handle error
+  });
+}
